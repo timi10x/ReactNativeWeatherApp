@@ -11,14 +11,21 @@ import {
 export default function App() {
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.green}>
-        Open up App.js to start working on your app uuiuiu!
+    <KeyboardAvoidingView style={styles.container} behavior = "padding">
+      <Text style={[styles.largeText, styles.textStyle]}>
+        San Fransisco
         </Text>
-      <Text>This is a good way to start This</Text>
-      <TextInput style={{backgroundColor: 'red'}} placeholder="Password" />
+      <Text style={[styles.smallText, styles.textStyle]}>Light Cloud</Text>
+      <Text style={[styles.largeText, styles.textStyle]}>24°</Text>
+      <TextInput
+      autoCorrect = {false}
+      placeholder = "Search any city"
+      placeholderTextColor = "white"
+      style = {styles.textInput}
+      clearButtonMode = "always"
+      />
       <StatusBar style="auto" />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -31,13 +38,30 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     textAlign: 'center',
-    fontFamily: Platform.OS === 'ios' ?  'AvenirNext-Regular' : 'Roboto',
+    ...Platform.select({
+      ios: {
+        fontFamily: 'AvenirNext-Regular',
+      },
+      android: {
+        fontFamily: 'Roboto',
+      }
+    })
   },
   largeText: {
     fontSize: 44
   },
   smallText: {
     fontSize: 18
+  },
+  textInput: {
+    backgroundColor: '#666',
+    color: 'white',
+    height: 30,
+    width: 300,
+    marginTop: 20,
+    marginHorizontal: 20,
+    paddingHorizontal: 10,
+    alignSelf: 'center'
   },
   green: {
     color: 'green'
