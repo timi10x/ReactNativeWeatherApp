@@ -1,5 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { 
+  Platform, 
+  StyleSheet, 
+  Text, 
+  TextInput, 
+  View,
+  KeyboardAvoidingView
+} from 'react-native';
 
 export default function App() {
 
@@ -21,6 +28,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  textStyle: {
+    textAlign: 'center',
+    fontFamily: Platform.OS === 'ios' ?  'AvenirNext-Regular' : 'Roboto',
+  },
+  largeText: {
+    fontSize: 44
+  },
+  smallText: {
+    fontSize: 18
   },
   green: {
     color: 'green'
