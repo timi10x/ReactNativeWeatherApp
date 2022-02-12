@@ -7,6 +7,7 @@ import {
   View,
   KeyboardAvoidingView
 } from 'react-native';
+import SearchInput from './components/SearchInput';
 
 export default function App() {
 
@@ -17,14 +18,8 @@ export default function App() {
         </Text>
       <Text style={[styles.smallText, styles.textStyle]}>Light Cloud</Text>
       <Text style={[styles.largeText, styles.textStyle]}>24°</Text>
-      <TextInput
-      autoCorrect = {false}
-      placeholder = "Search any city"
-      placeholderTextColor = "white"
-      style = {styles.textInput}
-      clearButtonMode = "always"
-      />
-      <StatusBar style="auto" />
+      
+      <SearchInput placeholder="Search any city" />
     </KeyboardAvoidingView>
   );
 }
