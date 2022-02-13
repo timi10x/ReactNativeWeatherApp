@@ -15,11 +15,14 @@ import getImageForWeather from './utils/getImageForWeather';
 
 export default function App() {
 
-  const location = 'San Fransisco';
+  const { location } = this.state;
 
-  handleChangeText = (newLocation) => {
-    this.props.location = newLocation;
-    };
+  handleUpdateLocation = city => {
+    this.setState({
+      location = city,
+    });
+  };
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <ImageBackground
@@ -34,7 +37,9 @@ export default function App() {
           <Text style={[styles.smallText, styles.textStyle]}>Light Cloud</Text>
           <Text style={[styles.largeText, styles.textStyle]}>24°</Text>
 
-          <SearchInput placeholder="Search any city" />
+          <SearchInput
+            placeholder="Search any city"
+            onSubmit={this.handleUpdateLocation} />
 
           <StatusBar style="auto" />
 
@@ -92,5 +97,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.2)',
     paddingHorizontal: 20,
-    },
+  },
 });
