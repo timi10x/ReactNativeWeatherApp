@@ -1,34 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import {
+  ActivityIndicator,
+  ImageBackground,
+  KeyboardAvoidingView,
   Platform,
   StyleSheet,
   Text,
-  TextInput,
   View,
-  KeyboardAvoidingView,
-  ImageBackground,
-  ActivityIndicator,
+  StatusBar,
 } from 'react-native';
-import React, {Component} from 'react';
 
+import { fetchLocationId, fetchWeather } from './utils/api';
+import getImageForWeather from './utils/getImageForWeather';
 
 import SearchInput from './components/SearchInput';
-import getImageForWeather from './utils/getImageForWeather';
-import { fetchLocationId, fetchWeather } from './utils/api';
 
 export default class App extends React.Component {
+  state = {
+    loading: false,
+    error: false,
+    location: '',
+    temperature: 0,
+    weather: '',
+  };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: false,
-      error: false,
-      location: '',
-      temperature: 0,
-      weather: ''
-    };
-
+  componentDidMount() {
+    this.handleUpdateLocation('San Francisco');
   }
 
   handleUpdateLocation = async city => {
@@ -36,7 +33,6 @@ export default class App extends React.Component {
 
     this.setState({ loading: true }, async () => {
       try {
-
         const locationId = await fetchLocationId(city);
         const { location, weather, temperature } = await fetchWeather(
           locationId,
@@ -49,28 +45,23 @@ export default class App extends React.Component {
           weather,
           temperature,
         });
-
       } catch (e) {
-
         this.setState({
           loading: false,
           error: true,
         });
-
       }
     });
   };
 
   render() {
-
     const { loading, error, location, weather, temperature } = this.state;
-
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <StatusBar barStyle="light-content" />
         <ImageBackground
-          source={getImageForWeather('Clear')}
+          source={getImageForWeather(weather)}
           style={styles.imageContainer}
           imageStyle={styles.image}
         >
@@ -84,6 +75,7 @@ export default class App extends React.Component {
                     Could not load weather, please try a different city.
                   </Text>
                 )}
+
                 {!error && (
                   <View>
                     <Text style={[styles.largeText, styles.textStyle]}>
@@ -97,53 +89,23 @@ export default class App extends React.Component {
                     </Text>
                   </View>
                 )}
+
                 <SearchInput
                   placeholder="Search any city"
                   onSubmit={this.handleUpdateLocation}
                 />
               </View>
             )}
-
           </View>
         </ImageBackground>
-
       </KeyboardAvoidingView>
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#34495E',
-  },
-  textStyle: {
-    textAlign: 'center',
-    ...Platform.select({
-      ios: {
-        fontFamily: 'AvenirNext-Regular',
-      },
-      android: {
-        fontFamily: 'Roboto',
-      }
-    }),
-    color: 'white'
-  },
-  largeText: {
-    fontSize: 44
-  },
-  smallText: {
-    fontSize: 18
-  },
-  textInput: {
-    backgroundColor: '#666',
-    color: 'white',
-    height: 30,
-    width: 300,
-    marginTop: 20,
-    marginHorizontal: 20,
-    paddingHorizontal: 10,
-    alignSelf: 'center'
   },
   imageContainer: {
     flex: 1,
@@ -159,5 +121,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.2)',
     paddingHorizontal: 20,
+  },
+  textStyle: {
+    textAlign: 'center',
+    fontFamily: Platform.OS === 'ios' ? 'AvenirNext-Regular' : 'Roboto',
+    color: 'white',
+  },
+  largeText: {
+    fontSize: 44,
+  },
+  smallText: {
+    fontSize: 18,
   },
 });
