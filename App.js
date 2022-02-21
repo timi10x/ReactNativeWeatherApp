@@ -16,6 +16,8 @@ import getImageForWeather from './utils/getImageForWeather';
 export default function App() {
 
   const { location } = this.state;
+  
+  
 
   handleUpdateLocation = city => {
     this.setState({
