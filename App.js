@@ -72,7 +72,7 @@ export default class App extends React.Component {
               <View>
                 {error && (
                   <Text style={[styles.smallText, styles.textStyle]}>
-                    Could not load weather, retry.
+                    Could not load weather, please try a different city.
                   </Text>
                 )}
 
